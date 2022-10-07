@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "ctfd.fullname" . }}
+  namespace: {{ .Values.ctfd.namespace }}
+  labels:
+    {{- include "ctfd.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.ctfd.replicas }}
+  strategy:
+    type: Recreate
+
+  selector:
+    matchLabels:
+      {{- include "ctfd.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "ctfd.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.ctfd.image}}"
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: {{.Release.Name }}-env
+            - secretRef:
+                name: {{.Release.Name }}-env
+          ports:
+            - name: http
+              containerPort: 8000
+              protocol: TCP
+          livenessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http

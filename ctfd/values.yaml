@@ -1,0 +1,23 @@
+ctfd:
+  image: ctfd/ctfd:latest
+  workers: 1
+  replicas: 9
+  namespace: ctfd
+
+
+env:
+  db_location: db
+  db_user: dbuser
+  db_password: dbpassword
+  redis_location: redis
+  redis_port: 1234
+  redis_user:
+  redis_password:
+
+ingress:
+  domain:
+  ip-name:
+
+aes:
+  enabled: true
+  string: "default_from_yml"

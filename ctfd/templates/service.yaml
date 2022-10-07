@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "ctfd.fullname" . }}
+  namespace: {{ .Values.ctfd.namespace }}
+  labels:
+    {{- include "ctfd.labels" . | nindent 4 }}
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8000
+      protocol: TCP
+  selector:
+    {{- include "ctfd.selectorLabels" . | nindent 4 }}

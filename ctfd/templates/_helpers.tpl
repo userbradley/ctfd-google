@@ -66,9 +66,3 @@ Create the name of the service account to use
 {{- printf "mysql+pymysql://%s:%s@%s/ctfd" .db_user .db_password .db_location | b64enc | quote }}
 {{- end }}
 {{- end }}
-
-{{- define "aes-env" }}
-{{- with .Values.aes }}
-{{- printf "AES:base64:%s" (printf .string | b64enc ) | b64enc | quote }}
-{{- end }}
-{{- end }}

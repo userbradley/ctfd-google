@@ -1,6 +1,9 @@
 apiVersion: v2
 name: ctfd
-description: Helm chart for deploying CTFD to GKE
+description: CTFd deployed to Google Kubernetes Engine
 type: application
-version: 0.1.0
-appVersion: "1.16.0"
+version: 1.0.0
+appVersion: "amd64-0.0.1"
+maintainers:
+  - name: Bradley Stannard
+    email: bradley@breadnet.co.uk

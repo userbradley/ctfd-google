@@ -1,20 +1,11 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{.Release.Name }}-env
-  namespace: {{ .Values.ctfd.namespace }}
+  name: {{ include "ctfd.fullname" . }}
+  labels:
+    {{- include "ctfd.labels" . | nindent 4}}
 data:
   UPLOAD_FOLDER: "/var/uploads"
   REDIS_URL: "redis://{{.Values.env.redis_location }}:{{.Values.env.redis_port}}"
-  WORKERS: "1"
+  WORKERS: {{ .Values.ctfd.workers | quote }}
   LOG_FOLDER: "/var/log/CTFd"
-
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: {{.Release.Name }}-env
-  namespace: {{ .Values.ctfd.namespace }}
-data:
-  DATABASE_URL: {{ template "ctfd-sql" . }}
-

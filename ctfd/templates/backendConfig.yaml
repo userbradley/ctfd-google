@@ -1,0 +1,26 @@
+apiVersion: cloud.google.com/v1
+kind: BackendConfig
+metadata:
+  name: {{ include "ctfd.fullname" . }}
+  labels:
+    {{- include "ctfd.labels" . | nindent 4}}
+spec:
+  timeoutSec: 3000
+  logging:
+    enable: true
+    sampleRate: 1
+  healthCheck:
+    checkIntervalSec: 30
+    timeoutSec: 3
+    healthyThreshold: 1
+    unhealthyThreshold: 1
+    type: HTTP
+    requestPath: /healthcheck
+    port: 8000
+
+  {{- if .Values.ingress.iap.enabled}}
+  iap:
+    enabled: true
+    oauthclientCredentials:
+      secretName: iap-oauth-client-id
+    {{- end }}

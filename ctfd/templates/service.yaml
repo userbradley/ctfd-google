@@ -2,9 +2,10 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "ctfd.fullname" . }}
-  namespace: {{ .Values.ctfd.namespace }}
   labels:
-    {{- include "ctfd.labels" . | nindent 4 }}
+    {{- include "ctfd.labels" . | nindent 4}}
+  annotations:
+    cloud.google.com/backend-config: '{"default": "{{ include "ctfd.fullname" . }}"}'
 spec:
   type: ClusterIP
   ports:
@@ -12,4 +13,5 @@ spec:
       targetPort: 8000
       protocol: TCP
   selector:
-    {{- include "ctfd.selectorLabels" . | nindent 4 }}
+   {{- include "ctfd.selectorLabels" . | nindent 4 }}
+

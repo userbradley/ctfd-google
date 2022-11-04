@@ -1,23 +1,30 @@
 ctfd:
-  image: ctfd/ctfd:latest
+  image: "userbradley/ctfd:amd64-0.0.1"
   workers: 1
-  replicas: 9
+  replicas: 3
   namespace: ctfd
+  secretKey: "72d00707c69827be63492422445a2c8adc6a4242dd7e649a225a8af75363abac"
 
 
 env:
-  db_location: db
-  db_user: dbuser
-  db_password: dbpassword
-  redis_location: redis
-  redis_port: 1234
-  redis_user:
-  redis_password:
+  db_location: localhost
+  db_user: ctfd
+  db_password: ctfd
+
+# V2 will have redis username and password
+  redis_location: 10.56.1.4
+  redis_port: 6379
 
 ingress:
-  domain:
-  ip-name:
+  domain: "ctf.breadnet.co.uk"
+  ipName: "ctf"
+  iap:
+    enabled: false
+    client: ""
+    secret: ""
 
-aes:
-  enabled: true
-  string: "default_from_yml"
+sql:
+  connection_string: "breadnet-ctf:europe-west2:ctf-sql"
+
+googleCloud:
+  serviceAccount: "ctfd-wid@breadnet-ctf.iam.gserviceaccount.com"
